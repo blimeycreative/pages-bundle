@@ -43,7 +43,7 @@ class Content
      * @ORM\ManyToOne(targetEntity="Savvy\PagesBundle\Entity\LayoutLayoutField")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="layout_id", referencedColumnName="layout_id", onDelete="CASCADE"),
-     *   @ORM\JoinColumn(name="layout_field_name", columnDefinition="VARCHAR(255)", referencedColumnName="name", onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="name", columnDefinition="VARCHAR(255)", referencedColumnName="name", onDelete="CASCADE")
      * })
      */
     protected $type;
@@ -55,13 +55,6 @@ class Content
      * @ORM\JoinColumn(name="layout_field_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $field;
-
-    /**
-     * @var text $name
-     *
-     * @ORM\Column(name="name", type="text")
-     */
-    protected $name;
 
     /**
      * Get id
@@ -91,26 +84,6 @@ class Content
     public function getValue()
     {
         return $this->value;
-    }
-
-    /**
-     * Set name
-     *
-     * @param text $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * Get name
-     *
-     * @return text 
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
