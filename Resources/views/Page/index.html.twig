@@ -1,0 +1,37 @@
+{% extends "::base.html.twig" %}
+{% block navigation_one %}
+{{ knp_menu_render('PagesBundle:Builder:mainMenu') }}
+{% endblock %}
+{% block navigation_two %}
+{{ knp_menu_render('PagesBundle:Builder:sideMenu') }}
+{% endblock %}
+{% block body %}
+    {% if page is defined %}
+        <h2>{{ page.name }}</h2>
+        <div class="page_content">
+            {% for content in contents %}
+                {% if content.field.field == "oxygen_custom_file" %}
+                    {{ media_show(content.value, "", "medium") }}
+                {% elseif content.field.field == "text" %}
+                    <p>{{ content.value }}</p>
+                {% else %}
+                    {{ content.value | raw }}
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% if page.galleries | length > 0 %}
+            {% for gallery in page.galleries %}
+                <div class="cb"></div>
+                <div class="gallery_container">
+                    <ul class="gallery jcarousel-skin-pika">
+                        {% for media in gallery.files %}
+                            <li>
+                                {{ media_show(media.mediaData.id, '', 'large-rect')}}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endblock %}
