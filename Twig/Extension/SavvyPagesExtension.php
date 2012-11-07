@@ -118,25 +118,6 @@ class SavvyPagesExtension extends \Twig_Extension
     }
 
     /**
-     * Return a selling type translated to TRG internal reference
-     */
-    public function getSellingTypeTranslation($entity)
-    {
-        $translations = array(
-            'standard' => 'Full',
-            'half' => '50/50',
-            'fraction' => 'Fractional'
-        );
-        $string = $translations[$entity->getSellingType()->getReference()];
-        if ($entity->getSellingType()->getName() == 'CASH') {
-            $string .= ' (Cash)';
-        } elseif ($entity->getSellingType()->getName() == 'SIPP') {
-            $string .= ' (SIPP)';
-        }
-        return $string;
-    }
-
-    /**
      * Return text split and paragraphed on \n's
      */
     public function automatedParagraphs($text)
