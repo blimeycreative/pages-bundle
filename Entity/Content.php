@@ -40,7 +40,7 @@ class Content
     /**
      * @var entity $type
      *
-     * @ORM\ManyToOne(targetEntity="Oxygen\CmsBundle\Entity\LayoutLayoutField")
+     * @ORM\ManyToOne(targetEntity="Savvy\PagesBundle\Entity\LayoutLayoutField")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="layout_id", referencedColumnName="layout_id", onDelete="CASCADE"),
      *   @ORM\JoinColumn(name="layout_field_name", columnDefinition="VARCHAR(255)", referencedColumnName="name", onDelete="CASCADE")
