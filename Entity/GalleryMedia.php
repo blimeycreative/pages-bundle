@@ -31,7 +31,7 @@ class GalleryMedia
     /**
      * @var string $media_data
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Savvy\PagesBundle\Entity\Media", inversedBy="galleries")
+     * @ORM\ManyToOne(targetEntity="Savvy\PagesBundle\Entity\Media")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $media_data;
