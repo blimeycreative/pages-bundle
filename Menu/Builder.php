@@ -12,7 +12,7 @@ class Builder extends BaseController
     {
         $menu = $factory->createItem('root');
         $root = $this->em->getRepository("PagesBundle:Page")->getPageBySlug(NULL, $this->container->getParameter("site_id"));
-        $this->dynamicMenu($root, $menu, 2);
+        $this->dynamicMenu($root, $menu, $this->nav_one_depth);
         return $menu;
     }
     
@@ -22,7 +22,7 @@ class Builder extends BaseController
         $slug = $this->getRequest()->attributes->get('slug');
         $page = $this->findPage($slug, true);
         $this->checkEntity($page, "Page");
-        $this->dynamicMenu($page, $menu, 4, $page->getSlug());
+        $this->dynamicMenu($page, $menu, $this->nav_two_depth, $page->getSlug());
         return $menu;
     }
     
