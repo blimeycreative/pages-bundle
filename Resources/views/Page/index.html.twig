@@ -6,6 +6,9 @@
 {{ knp_menu_render('PagesBundle:Builder:sideMenu') }}
 {% endblock %}
 {% block body %}
+{% if has_nav_two() %}
+    conditional_output
+{% endif %}
     {% if page is defined %}
         <h2>{{ page.name }}</h2>
         <div class="page_content">

@@ -38,8 +38,6 @@ class SavvyPagesExtension extends \Twig_Extension
         return $this->container;
     }
 
-    
-
     /**
      * Returns the name of the extension.
      *
@@ -49,7 +47,6 @@ class SavvyPagesExtension extends \Twig_Extension
     {
         return 'savvy_pages';
     }
-    
 
     /**
      * Returns a list of functions to add to the existing list.
@@ -65,7 +62,7 @@ class SavvyPagesExtension extends \Twig_Extension
             'get_action_name' => new \Twig_Function_Method($this, 'getActionName'),
             'nice_selling_type' => new \Twig_Function_Method($this, 'getSellingTypeTranslation', array('is_safe' => array('html'))),
             'auto_p' => new \Twig_Function_Method($this, 'automatedParagraphs', array('is_safe' => array('html'))),
-            'has_nav_two' => new \Twig_Function_Method($this, 'hasNavTwo', array('is_safe' => array('html'))),
+            'has_nav_two' => new \Twig_Function_Method($this, 'hasNavTwo'),
         );
     }
 
@@ -131,17 +128,18 @@ class SavvyPagesExtension extends \Twig_Extension
         }
         return "<p>" . implode("</p>\n<p>", $text_array) . "</p>";
     }
-    
-    public function hasNavTwo(){
+
+    public function hasNavTwo()
+    {
         $slug_string = $this->container->get('request')->attributes->get('slug');
         $slug_array = explode("/", $slug_string);
         $slug = array_shift($slug_array);
         $em = $this->container->get('doctrine')->getEntityManager();
         $page = $em->getRepository("PagesBundle:Page")->getPageBySlug($slug, $this->container->getParameter("site_id"));
-        if(!$page || !$page->getChildren()){
-            return false;
+        foreach ($page->getChildren() as $child) {
+            return true;
         }
-        return true;
+        return false;
     }
 
 }
