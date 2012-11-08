@@ -138,7 +138,7 @@ class SavvyPagesExtension extends \Twig_Extension
         $slug = array_shift($slug_array);
         $em = $this->container->get('doctrine')->getEntityManager();
         $page = $em->getRepository("PagesBundle:Page")->getPageBySlug($slug, $this->container->getParameter("site_id"));
-        if(!$page || !$page->getChildren){
+        if(!$page || !$page->getChildren()){
             return false;
         }
         return true;
