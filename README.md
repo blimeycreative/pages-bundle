@@ -5,12 +5,14 @@ Add the bundle to required bundles in composer.json
         "savvy/pages-bundle": "dev-master"
     },
 
-Register the bundle in AppKernal.php
+Register the bundle in AppKernal.php, you will need to register the KnpLabs Menu Bundle too
+if you have not already:
 
     public function registerBundles()
     {
         $bundles = array(
             // other bundles
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Savvy\PagesBundle\PagesBundle(),
         );
     // ...
