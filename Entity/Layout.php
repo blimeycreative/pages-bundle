@@ -31,6 +31,13 @@ class Layout
     protected $name;
 
     /**
+     * @var string $title
+     *
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    protected $title;
+
+    /**
      * @var array $pages
      *
      * @ORM\OneToMany(targetEntity="Page", mappedBy="layout")
@@ -135,7 +142,6 @@ class Layout
         $this->fields[] = $fields;
     }
 
-
     /**
      * Add fields
      *
@@ -145,4 +151,15 @@ class Layout
     {
         $this->fields[] = $fields;
     }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
 }
