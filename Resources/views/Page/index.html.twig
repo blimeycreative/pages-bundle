@@ -12,15 +12,7 @@
     {% if page is defined %}
         <h2>{{ page.name }}</h2>
         <div class="page_content">
-            {% for content in contents %}
-                {% if content.field.field == "oxygen_custom_file" %}
-                    {{ media_show(content.value, "", "medium") }}
-                {% elseif content.field.field == "text" %}
-                    <p>{{ content.value }}</p>
-                {% else %}
-                    {{ content.value | raw }}
-                {% endif %}
-            {% endfor %}
+             {# content here using layout field names sluggified #}
         </div>
         {% if page.galleries | length > 0 %}
             {% for gallery in page.galleries %}
