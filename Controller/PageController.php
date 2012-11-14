@@ -30,7 +30,7 @@ class PageController extends BaseController
         }
         exit;
     }
-    
+
     /**
      * @Route("{slug}", name="page_index", defaults={"slug" = false}, requirements={"slug" = "[0-9a-zA-Z\/\-]*"})
      * @Template()
@@ -40,11 +40,12 @@ class PageController extends BaseController
         if ($slug) {
             $page = $this->findPage($slug);
             $this->checkEntity($page, "Page:$slug");
+            $return = array("page" => $page);
             $contents = $this->em->getRepository('PagesBundle:Content')->getPageContents($page->getId());
-            return array(
-                "page" => $page,
-                "contents" => $contents
-            );
+            foreach($contents as $content){
+                $return[$content->getType()->getName()] = $content->getValue();
+            }
+            return $return;
         }
         return array();
     }

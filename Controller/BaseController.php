@@ -31,7 +31,7 @@ class BaseController extends Controller
         if (!$page) {
             return false;
         }
-        if($first_page){
+        if ($first_page) {
             return $page;
         }
         while (!empty($slug_array)) {
@@ -55,6 +55,13 @@ class BaseController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException("Entity: '$name' could not be found");
         }
+    }
+
+    public static function slugify($text, $substitute = '-')
+    {
+        $text = preg_replace('/\W+/', $substitute, $text);
+        $text = strtolower(trim($text, $substitute));
+        return $text;
     }
 
 }
