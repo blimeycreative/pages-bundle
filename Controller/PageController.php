@@ -43,7 +43,7 @@ class PageController extends BaseController
             $return = array("page" => $page);
             $contents = $this->em->getRepository('PagesBundle:Content')->getPageContents($page->getId());
             foreach($contents as $content){
-                $return[$content->getType()->getName()] = $content->getValue();
+                $return[self::slugify($content->getType()->getName(), "_")] = $content->getValue();
             }
             return $return;
         }
