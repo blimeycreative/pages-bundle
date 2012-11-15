@@ -13,13 +13,14 @@ class MediaFactory
     {
         $this->class = $class::getInstance($container);
     }
-    
+
     public function showFile($id, $class, $size, $route_only, $absolute)
     {
         return $this->class->showFile($id, $class, $size, $route_only, $absolute);
     }
-    
-    public function showTitle($id){
+
+    public function showTitle($id)
+    {
         return $this->class->showTitle($id);
     }
 
