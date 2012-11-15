@@ -18,6 +18,9 @@ class MediaFactory
     {
         return $this->class->showFile($id, $class, $size, $route_only, $absolute);
     }
-
+    
+    public function showTitle($id){
+        return $this->class->showTitle($id);
+    }
 
 }

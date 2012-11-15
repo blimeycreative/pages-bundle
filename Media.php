@@ -40,4 +40,11 @@ class Media
         }
     }
 
+    public function showTitle($id){
+        $em = $this->container->get('doctrine')->getEntityManager();
+        $media = $em->getRepository('PagesBundle:Media')->find($id);
+        if (!$media)
+            return;
+        return $media->getFileName();
+    }
 }

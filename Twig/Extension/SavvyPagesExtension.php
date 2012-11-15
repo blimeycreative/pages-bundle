@@ -57,7 +57,7 @@ class SavvyPagesExtension extends \Twig_Extension
     {
         return array(
             'media_show' => new \Twig_Function_Method($this, 'mediaShow', array('is_safe' => array('html'))),
-            'media_system' => new \Twig_Function_Method($this, 'mediaSystem', array('is_safe' => array('html'))),
+            'media_title' => new \Twig_Function_Method($this, 'mediaTitle', array('is_safe' => array('html'))),
             'get_controller_name' => new \Twig_Function_Method($this, 'getControllerName'),
             'get_action_name' => new \Twig_Function_Method($this, 'getActionName'),
             'nice_selling_type' => new \Twig_Function_Method($this, 'getSellingTypeTranslation', array('is_safe' => array('html'))),
@@ -89,6 +89,14 @@ class SavvyPagesExtension extends \Twig_Extension
     public function mediaShow($id = 1, $class = '', $size = 'thumb', $route_only = false, $absolute = false)
     {
         return $this->getContainer()->get('savvy.media.factory')->showFile($id, $class, $size, $route_only, $absolute);
+    }
+    
+    /**
+     * Show file title
+     */
+    public function mediaTitle($id = 1)
+    {
+        return $this->getContainer()->get('savvy.media.factory')->showTitle($id);
     }
 
     /**
