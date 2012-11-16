@@ -169,7 +169,7 @@ class Media {
   }
 
   /**
-   * @ORM\prePersist
+   * @ORM\PrePersist
    */
   public function setTimestamps() {
     $this->setCreated(new \DateTime());
