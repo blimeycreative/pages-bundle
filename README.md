@@ -31,6 +31,7 @@ parameters:
   # ... other parameters
   site_id:           1 #numeric id field value for site to display from main DB
   media_route:       "/path/to/cms/media_files/directory/"
+  media_cache_route: "/path/to/desired/cache/webroot/"
   nav_one_depth:     1 #depth of navigation one links, e.g. depth 2 = top level nav plus one level of sub nav
   nav_two_depth:     2 #depth of navigation two links
 ```

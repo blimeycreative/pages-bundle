@@ -12,10 +12,10 @@ class PageController extends BaseController
 {
 
     /**
-     * @Route("media/show/{id}/{size}", name="media_show")
+     * @Route("media/show/{id}/{size}/{width}/{height}", name="media_show", defaults={"size"="large", "width"=false, "height"=false, "composite"=false})
      * @Template
      */
-    public function showAction($id, $size)
+    public function showAction($id, $size, $width, $height, $composite)
     {
         $media = $this->getDoctrine()->getRepository('PagesBundle:Media')->find($id);
         if ($media) {
@@ -26,7 +26,47 @@ class PageController extends BaseController
                 header("Content-Transfer-Encoding: binary");
             }
             header('content-type: ' . $media->getMediaType()->getName());
-            readfile($this->media_route . $media->getId() . ($size == 'non-image' ? '' : '-' . $size) . '.' . $media->getMediaType()->getExtension());
+            if (!$width && !$height) {
+                readfile($this->media_route . $media->getId() . ($size == 'non-image' ? '' : '-' . $size) . '.' . $media->getMediaType()->getExtension());
+            } else {
+                if (!file_exists($this->media_cache_route)) {
+                    mkdir($this->media_cache_route, "0777", true);
+                }
+                if (!file_exists($this->media_cache_route . "$id-$width-$height.{$media->getMediaType()->getExtension()}")) {
+                    // Read the current media file into imagick
+                    $im = new \Imagick($this->media_route . $media->getId() . ($size == 'non-image' ? '' : '-' . $size) . '.' . $media->getMediaType()->getExtension());
+
+                    if ($width > 0 && $height > 0) {
+                        if ($composite) {
+                            /* Fit the image into $width x $height box
+                              The third parameter fits the image into a "bounding box" */
+                            $im->thumbnailImage($width, $height, true);
+
+                            /* Create a canvas with the desired color */
+                            $canvas = new \Imagick();
+                            $canvas->newImage($width, $height, 'transparent', 'png');
+
+                            /* Get the image geometry */
+                            $geometry = $im->getImageGeometry();
+
+                            /* The overlay x and y coordinates */
+                            $x = ( $width - $geometry['width'] ) / 2;
+                            $y = ( $height - $geometry['height'] ) / 2;
+
+                            /* Composite on the canvas  */
+                            $canvas->compositeImage($im, \Imagick::COMPOSITE_OVER, $x, $y);
+                            // Route starts in web folder
+                            $canvas->writeImage($this->media_cache_route . "$id-$width-$height.{$media->getMediaType()->getExtension()}");
+                        } else {
+                            $im->thumbnailImage($width, $height);
+                            $im->writeImage($this->media_cache_route . "$id-$width-$height.{$media->getMediaType()->getExtension()}");
+                        }
+                    } else {
+                        $im->writeImage($this->media_cache_route . "$id-$width-$height.{$media->getMediaType()->getExtension()}");
+                    }
+                }
+                readfile("{$this->media_cache_route}$id-$width-$height.{$media->getMediaType()->getExtension()}");
+            }
         }
         exit;
     }
@@ -42,7 +82,7 @@ class PageController extends BaseController
             $this->checkEntity($page, "Page:$slug");
             $return = array("page" => $page);
             $contents = $this->em->getRepository('PagesBundle:Content')->getPageContents($page->getId());
-            foreach($contents as $content){
+            foreach ($contents as $content) {
                 $return[self::slugify($content->getType()->getName(), "_")] = $content->getValue();
             }
             return $return;
