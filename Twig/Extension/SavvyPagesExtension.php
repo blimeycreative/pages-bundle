@@ -90,7 +90,7 @@ class SavvyPagesExtension extends \Twig_Extension
     {
         return $this->getContainer()->get('savvy.media.factory')->showFile($id, $class, $size, $route_only, $absolute);
     }
-    
+
     /**
      * Show file title
      */
@@ -129,8 +129,8 @@ class SavvyPagesExtension extends \Twig_Extension
     public function automatedParagraphs($text)
     {
         $text_array = explode("\n", $text);
-        foreach ($text_array as $key => &$string) {
-            if ($string == '') {
+        foreach ($text_array as $key => $string) {
+            if (self::stripper($string) === false) {
                 unset($text_array[$key]);
             }
         }
@@ -148,6 +148,13 @@ class SavvyPagesExtension extends \Twig_Extension
             return true;
         }
         return false;
+    }
+
+    public static function stripper($val)
+    {
+        foreach (array(" ", "&nbsp;", "\n", "\t", "\r") as $strip)
+            $val = str_replace($strip, '', (string) $val);
+        return $val === '' ? false : $val;
     }
 
 }
