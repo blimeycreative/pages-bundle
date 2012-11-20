@@ -18,22 +18,28 @@ class PageController extends BaseController
     public function showAction($id, $size, $width, $height, $crop, $composite)
     {
         $media = $this->getDoctrine()->getRepository('PagesBundle:Media')->find($id);
+        error_log("MediaCacheFile: attempt file read for media id: '$id'");
         if ($media) {
+            error_log("MediaCacheFile: File exists");
             if (!in_array($media->getMediaType()->getExtension(), array('png', 'gif', 'jpg'))) {
+                error_log("MediaCacheFile: render file as its not an image");
                 header("Cache-Control: public");
                 header("Content-Description: File Transfer");
                 header("Content-Disposition: attachment; filename={$media->getFileName()}.{$media->getMediaType()->getExtension()}");
                 header("Content-Transfer-Encoding: binary");
             }
             if (!$width && !$height) {
+                error_log("MediaCacheFile: no width or height set so no need to create cache file");
                 readfile($this->media_route . $media->getId() . ($size == 'non-image' ? '' : '-' . $size) . '.' . $media->getMediaType()->getExtension());
             } else {
                 if (!file_exists($this->media_cache_route)) {
+                    error_log("MediaCacheFile: createing cache directory");
                     mkdir($this->media_cache_route, "0777", true);
                 }
                 $cache_file = false;
                 foreach (array('jpg' => "image/jpeg", 'png' => 'image/png', 'gif' => 'image/gif') as $extension => $content_type) {
-                    if (!file_exists($this->media_cache_route . "$id-$width-$height.$extension")) {
+                    if (file_exists($this->media_cache_route . "$id-$width-$height.$extension")) {
+                        error_log("MediaCacheFile: Cache file exists");
                         $cache_file = true;
                         break;
                     }
@@ -94,6 +100,7 @@ class PageController extends BaseController
                         $im->writeImage($this->media_cache_route . "$id-$width-$height.{$media->getMediaType()->getExtension()}");
                     }
                 }
+                error_log("MediaCacheFile: Rendering cache file");
                 header('content-type: ' . $content_type);
                 readfile("{$this->media_cache_route}$id-$width-$height.$extension");
             }
