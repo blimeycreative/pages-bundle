@@ -152,8 +152,9 @@ class SavvyPagesExtension extends \Twig_Extension
 
     public static function stripper($val)
     {
-        foreach (array(" ", "&nbsp;", "\n", "\t", "\r") as $strip)
+        foreach (array(" ", "&nbsp;", "\n", "\t", "\r") as $strip) {
             $val = str_replace($strip, '', (string) $val);
+        }
         return $val === '' ? false : $val;
     }
 
