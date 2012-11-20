@@ -69,7 +69,7 @@ class PageController extends BaseController
                             } else {
                                 $im->thumbnailImage($width, $height);
                             }
-                            $im->setCompression(imagick::COMPRESSION_ZIP);
+                            $im->setCompression(\Imagick::COMPRESSION_ZIP);
                             $im->setCompressionQuality(80);
                             $im->writeImage($this->media_cache_route . "$id-$width-$height.{$media->getMediaType()->getExtension()}");
                         }
