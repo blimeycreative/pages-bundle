@@ -32,7 +32,14 @@ class PageController extends BaseController
                 if (!file_exists($this->media_cache_route)) {
                     mkdir($this->media_cache_route, "0777", true);
                 }
-                if (!file_exists($this->media_cache_route . "$id-$width-$height.{$media->getMediaType()->getExtension()}")) {
+                $cache_file = false;
+                foreach (array('jpg', 'png', 'gif') as $extension) {
+                    if (!file_exists($this->media_cache_route . "$id-$width-$height.$extension")) {
+                        $cache_file = true;
+                        break;
+                    }
+                }
+                if (!$cache_file) {
                     // Read the current media file into imagick
                     $im = new \Imagick($this->media_route . $media->getId() . ($size == 'non-image' ? '' : '-' . $size) . '.' . $media->getMediaType()->getExtension());
 
@@ -62,22 +69,26 @@ class PageController extends BaseController
                             /* Composite on the canvas  */
                             $canvas->compositeImage($im, \Imagick::COMPOSITE_OVER, $x, $y);
                             // Route starts in web folder
-                            $canvas->writeImage($this->media_cache_route . "$id-$width-$height.{$media->getMediaType()->getExtension()}");
+                            $canvas->writeImage($this->media_cache_route . "$id-$width-$height.png");
+                            $extension = 'png';
                         } else {
                             if ($crop) {
                                 $im->cropthumbnailImage($width, $height);
                             } else {
                                 $im->thumbnailImage($width, $height);
                             }
-                            $im->setImageCompression(\Imagick::COMPRESSION_UNDEFINED);
-                            $im->setImageCompressionQuality(0);
-                            $im->writeImage($this->media_cache_route . "$id-$width-$height.{$media->getMediaType()->getExtension()}");
+                            $extension = 'jpg';
+                            $im->setimageformat('jpeg');
+                            $im->setImageCompression(\Imagick::COMPRESSION_JPEG);
+                            $im->setImageCompressionQuality(80);
+                            $im->writeImage($this->media_cache_route . "$id-$width-$height.jpg");
                         }
                     } else {
+                        $extension = $media->getMediaType()->getExtension();
                         $im->writeImage($this->media_cache_route . "$id-$width-$height.{$media->getMediaType()->getExtension()}");
                     }
                 }
-                readfile("{$this->media_cache_route}$id-$width-$height.{$media->getMediaType()->getExtension()}");
+                readfile("{$this->media_cache_route}$id-$width-$height.$extension");
             }
         }
         exit;
