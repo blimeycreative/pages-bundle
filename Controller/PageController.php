@@ -18,9 +18,8 @@ class PageController extends BaseController
     public function showAction($id, $size, $width, $height, $crop, $composite)
     {
         $media = $this->getDoctrine()->getRepository('PagesBundle:Media')->find($id);
-        error_log("MediaCacheFile: attempt file read for media id: '$id'");
+        error_log("MediaCacheFile: Attempt file read for media id: '$id'");
         if ($media) {
-            error_log("MediaCacheFile: File exists");
             if (!in_array($media->getMediaType()->getExtension(), array('png', 'gif', 'jpg'))) {
                 error_log("MediaCacheFile: render file as its not an image");
                 header("Cache-Control: public");

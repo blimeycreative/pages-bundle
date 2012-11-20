@@ -129,9 +129,9 @@ class SavvyPagesExtension extends \Twig_Extension
     public function automatedParagraphs($text)
     {
         $text_array = explode("\n", $text);
-        foreach ($text_array as &$string) {
+        foreach ($text_array as $key => &$string) {
             if ($string == '') {
-                $string = '&nbsp;';
+                unset($text_array[$key]);
             }
         }
         return "<p>" . implode("</p>\n<p>", $text_array) . "</p>";
