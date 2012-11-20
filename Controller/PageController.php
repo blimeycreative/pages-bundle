@@ -25,7 +25,6 @@ class PageController extends BaseController
                 header("Content-Disposition: attachment; filename={$media->getFileName()}.{$media->getMediaType()->getExtension()}");
                 header("Content-Transfer-Encoding: binary");
             }
-            header('content-type: ' . $media->getMediaType()->getName());
             if (!$width && !$height) {
                 readfile($this->media_route . $media->getId() . ($size == 'non-image' ? '' : '-' . $size) . '.' . $media->getMediaType()->getExtension());
             } else {
@@ -33,7 +32,7 @@ class PageController extends BaseController
                     mkdir($this->media_cache_route, "0777", true);
                 }
                 $cache_file = false;
-                foreach (array('jpg', 'png', 'gif') as $extension) {
+                foreach (array('jpg' => "image/jpeg", 'png' => 'image/png', 'gif' => 'image/gif') as $extension => $content_type) {
                     if (!file_exists($this->media_cache_route . "$id-$width-$height.$extension")) {
                         $cache_file = true;
                         break;
@@ -71,6 +70,7 @@ class PageController extends BaseController
                             // Route starts in web folder
                             $canvas->writeImage($this->media_cache_route . "$id-$width-$height.png");
                             $extension = 'png';
+                            $content_type = 'image/png';
                         } else {
                             if ($crop) {
                                 $im->cropthumbnailImage($width, $height);
@@ -78,15 +78,18 @@ class PageController extends BaseController
                                 $im->thumbnailImage($width, $height);
                             }
                             $extension = 'jpg';
+                            $content_type = 'image/jpeg';
                             $im->setImageFormat('jpeg');
                             $im->setImageCompressionQuality(80);
                             $im->writeImage($this->media_cache_route . "$id-$width-$height.jpg");
                         }
                     } else {
                         $extension = $media->getMediaType()->getExtension();
+                        $content_type = $media->getMediaType()->getName();
                         $im->writeImage($this->media_cache_route . "$id-$width-$height.{$media->getMediaType()->getExtension()}");
                     }
                 }
+                header('content-type: ' . $content_type);
                 readfile("{$this->media_cache_route}$id-$width-$height.$extension");
             }
         }
