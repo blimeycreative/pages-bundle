@@ -78,8 +78,7 @@ class PageController extends BaseController
                                 $im->thumbnailImage($width, $height);
                             }
                             $extension = 'jpg';
-                            $im->setimageformat('jpeg');
-                            $im->setImageCompression(\Imagick::COMPRESSION_JPEG);
+                            $im->setImageFormat('jpeg');
                             $im->setImageCompressionQuality(80);
                             $im->writeImage($this->media_cache_route . "$id-$width-$height.jpg");
                         }
