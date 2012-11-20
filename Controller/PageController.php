@@ -12,10 +12,10 @@ class PageController extends BaseController
 {
 
     /**
-     * @Route("media/show/{id}/{size}/{width}/{height}", name="media_show", defaults={"size"="large", "width"=false, "height"=false, "composite"=false})
+     * @Route("media/show/{id}/{size}/{width}/{height}/{crop}/{composite}", name="media_show", defaults={"size"="large", "width"=false, "height"=false, "crop"=true, "composite"=false})
      * @Template
      */
-    public function showAction($id, $size, $width, $height, $composite)
+    public function showAction($id, $size, $width, $height, $crop, $composite)
     {
         $media = $this->getDoctrine()->getRepository('PagesBundle:Media')->find($id);
         if ($media) {
@@ -38,9 +38,15 @@ class PageController extends BaseController
 
                     if ($width > 0 && $height > 0) {
                         if ($composite) {
-                            /* Fit the image into $width x $height box
-                              The third parameter fits the image into a "bounding box" */
-                            $im->thumbnailImage($width, $height, true);
+                            if ($crop) {
+                                $im->cropthumbnailImage($width, $height);
+                            } else {
+                                /**
+                                 * Fit the image into $width x $height box
+                                 * The third parameter fits the image into a "bounding box"
+                                 */
+                                $im->thumbnailImage($width, $height, true);
+                            }
 
                             /* Create a canvas with the desired color */
                             $canvas = new \Imagick();
@@ -58,7 +64,11 @@ class PageController extends BaseController
                             // Route starts in web folder
                             $canvas->writeImage($this->media_cache_route . "$id-$width-$height.{$media->getMediaType()->getExtension()}");
                         } else {
-                            $im->thumbnailImage($width, $height);
+                            if ($crop) {
+                                $im->cropthumbnailImage($width, $height);
+                            } else {
+                                $im->thumbnailImage($width, $height);
+                            }
                             $im->writeImage($this->media_cache_route . "$id-$width-$height.{$media->getMediaType()->getExtension()}");
                         }
                     } else {
