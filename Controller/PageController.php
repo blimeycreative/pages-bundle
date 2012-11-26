@@ -113,7 +113,7 @@ class PageController extends BaseController
      */
     public function indexAction($slug)
     {
-        if ($slug) {
+        if ($slug !== false) {
             $page = $this->findPage($slug);
             $this->checkEntity($page, "Page:$slug");
             $return = array("page" => $page);
