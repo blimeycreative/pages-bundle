@@ -30,14 +30,8 @@ class Builder extends BaseController
         if($level > 0 && $page->getChildren()){
             foreach($page->getChildren() as $child){
                 $slug = $url == '' ? $child->getSlug() : "$url/{$child->getSlug()}";
-                if($child->getForwardToChild() !== NULL){
-                    $menu_slug = '';
-                    $temp = $child->getForwardToChild();
-                    while($temp != $child){
-                        $menu_slug = '/' . $temp->getSlug() . $menu_slug;
-                        $temp = $temp->getParent();
-                    }
-                    $menu_slug = $url == '' ? $child->getSlug() . $menu_slug : "$url/{$child->getSlug()}$menu_slug";
+                if($this->getForwardSlug($child, $url)){
+                    $menu_slug = $this->getForwardSlug($child, $url);
                 } else {
                     $menu_slug = $slug;
                 }
