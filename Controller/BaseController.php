@@ -64,7 +64,7 @@ class BaseController extends Controller
         return $text;
     }
 
-    protected function getForwardSlug($current, $url){
+    protected function getForwardSlug($current, $url, $include_current = true){
         if($current->getForwardToChild() === NULL){
             return false;
         }
@@ -74,7 +74,7 @@ class BaseController extends Controller
             $slug = '/' . $temp->getSlug() . $slug;
             $temp = $temp->getParent();
         }
-        return $url == '' ? $current->getSlug() . $slug : "$url/{$current->getSlug()}$slug";
+        return $url == '' ? $current->getSlug() . $slug : ($include_current ? "$url/{$current->getSlug()}$slug" : $url.$slug);
     }
 
 }
