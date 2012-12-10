@@ -107,8 +107,8 @@ class Page
     /**
      * If a child is selected, forward link to child rather than self
      * @var entity $forward_to_child
-     * @ORM\ManyToOne(targetEntity="Oxygen\CmsBundle\Entity\Page")
-     * @ORM\JoinColumn(name="forward_to_child", referencedColumnName="id", onDelete="SET NULL", nullable="true")
+     * @ORM\ManyToOne(targetEntity="Savvy\PagesBundle\Entity\Page")
+     * @ORM\JoinColumn(name="forward_to_child", referencedColumnName="id", onDelete="SET NULL", nullable=true)
      */
     protected $forward_to_child;
 
