@@ -30,9 +30,20 @@ class Builder extends BaseController
         if($level > 0 && $page->getChildren()){
             foreach($page->getChildren() as $child){
                 $slug = $url == '' ? $child->getSlug() : "$url/{$child->getSlug()}";
+                if($child->getForwardToChild() !== NULL){
+                    $menu_slug = '';
+                    $temp = $child->getForwardToChild();
+                    while($temp != $child){
+                        $menu_slug = '/' . $temp->getSlug() . $menu_slug;
+                        $temp = $temp->getParent();
+                    }
+                    $menu_slug = $url == '' ? $child->getSlug() . $menu_slug : "$url/{$child->getSlug()}$menu_slug";
+                } else {
+                    $menu_slug = $slug;
+                }
                 $child_menu = $menu->addChild($child->getName(), array(
                     'route' => 'page_index',
-                    'routeParameters' => array('slug' => $slug)
+                    'routeParameters' => array('slug' => $menu_slug)
                 ));
                 if($level - 1 > 0){
                     $this->dynamicMenu($child, $child_menu, $level - 1, $slug);

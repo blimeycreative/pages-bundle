@@ -104,6 +104,14 @@ class Page
      */
     protected $site;
 
+    /**
+     * If a child is selected, forward link to child rather than self
+     * @var entity $forward_to_child
+     * @ORM\ManyToOne(targetEntity="Oxygen\CmsBundle\Entity\Page")
+     * @ORM\JoinColumn(name="forward_to_child", referencedColumnName="id", onDelete="SET NULL", nullable="true")
+     */
+    protected $forward_to_child;
+
     public function __construct()
     {
         $this->contents = new ArrayCollection();
@@ -343,6 +351,26 @@ class Page
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * Set forward_to_child
+     *
+     * @param Oxygen\CmsBundle\Entity\Page $forwardToChild
+     */
+    public function setForwardToChild($forwardToChild)
+    {
+        $this->forward_to_child = $forwardToChild;
+    }
+
+    /**
+     * Get forward_to_child
+     *
+     * @return Oxygen\CmsBundle\Entity\Page 
+     */
+    public function getForwardToChild()
+    {
+        return $this->forward_to_child;
     }
 
 }
