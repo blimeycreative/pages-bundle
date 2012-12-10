@@ -74,7 +74,7 @@ class BaseController extends Controller
             $slug = '/' . $temp->getSlug() . $slug;
             $temp = $temp->getParent();
         }
-        return $url == '' ? $current->getSlug() . $slug : "$url/{$current->getSlug()}$menu_slug";
+        return $url == '' ? $current->getSlug() . $slug : "$url/{$current->getSlug()}$slug";
     }
 
 }
