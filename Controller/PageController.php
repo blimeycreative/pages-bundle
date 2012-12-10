@@ -117,7 +117,7 @@ class PageController extends BaseController
             $page = $this->findPage($slug);
             $this->checkEntity($page, "Page:$slug");
             if($this->getForwardSlug($page, $slug)){
-                return $this->redirect($this->generateUrl('page_index'), array('slug' => $this->getForwardSlug($page, $slug)));
+                return $this->redirect($this->generateUrl('page_index', array('slug' => $this->getForwardSlug($page, $slug))));
             }
             $return = array("page" => $page);
             $contents = $this->em->getRepository('PagesBundle:Content')->getPageContents($page->getId());
