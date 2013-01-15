@@ -33,7 +33,7 @@ class Gallery
     /**
      * @ORM\Column(name="created_date", type="date")
      */
-    protected $date;
+    protected $created_date;
     
     /**
      * @var array $pages
@@ -64,9 +64,17 @@ class Gallery
      */
     protected $sites;
 
+    /**
+     * @var \Savvy\PagesBundle\Entity\Development
+     *
+     * @ORM\ManyToOne(targetEntity="Savvy\PagesBundle\Entity\Development", inversedBy="cms_galleries")
+     * @ORM\JoinColumn(name="development_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
+     */
+    protected $development;
+
     public function __construct()
     {
-        $this->date = new \DateTime;
+        $this->created_date = new \DateTime;
         $this->pages = new ArrayCollection();
         $this->files = new ArrayCollection();
         $this->sites = new ArrayCollection();
@@ -193,9 +201,9 @@ class Gallery
      *
      * @param date $date
      */
-    public function setDate($date)
+    public function setCreatedDate($date)
     {
-        $this->date = $date;
+        $this->created_date = $date;
     }
 
     /**
@@ -203,8 +211,25 @@ class Gallery
      *
      * @return date 
      */
-    public function getDate()
+    public function getCreatedDate()
     {
-        return $this->date;
+        return $this->created_date;
     }
+
+    /**
+     * @param \Savvy\PagesBundle\Entity\Development $development
+     */
+    public function setDevelopment($development)
+    {
+        $this->development = $development;
+    }
+
+    /**
+     * @return \Savvy\PagesBundle\Entity\Development
+     */
+    public function getDevelopment()
+    {
+        return $this->development;
+    }
+
 }

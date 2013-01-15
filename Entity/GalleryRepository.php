@@ -12,4 +12,23 @@ use Doctrine\ORM\EntityRepository;
  */
 class GalleryRepository extends EntityRepository
 {
+
+    public function getConstructionGalleries($criteria = array())
+    {
+        $q = $this->createQueryBuilder('g')
+            ->leftJoin('g.sites', 's')
+            ->leftJoin('g.development', 'd')
+            ->leftJoin('g.gallery_type', 'gt')
+            ->where('gt.id = :gallery_type')
+            ->setParameter('gallery_type', $criteria['gallery_type']);
+        if (isset($criteria['development'])) {
+            $q->andWhere('d.id = :development')
+                ->setParameter('development', $criteria['development']);
+        }
+        if (isset($criteria['site'])) {
+            $q->andWhere('s.id = :site')
+                ->setParameter('site', $criteria['site']);
+        }
+        return $q->getQuery()->getResult();
+    }
 }

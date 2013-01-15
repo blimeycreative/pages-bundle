@@ -13,13 +13,15 @@ class BaseController extends Controller
     {
         if ($parameter == "em") {
             if (!$this->entity_manager) {
-                $this->entity_manager = $this->getDoctrine()->getEntityManager();
+                $this->entity_manager = $this->getDoctrine()->getManager();
             }
+
             return $this->entity_manager;
         }
         if ($this->container->hasParameter($parameter)) {
             return $this->container->getParameter($parameter);
         }
+
         return false;
     }
 
@@ -47,7 +49,38 @@ class BaseController extends Controller
                 return false;
             }
         }
+
         return $page;
+    }
+
+    protected function findConstructionGallery()
+    {
+        $attributes = $this->getRequest()->attributes;
+        if (!$attributes->has('gallery_id')) {
+            throw $this->createNotFoundException("No gallery Id which is needed for this navigation");
+        }
+        $type = $this->em->getRepository("PagesBundle:GalleryType")->findOneBy(array("name" => "construction"));
+        $criteria = array("gallery_type" => $type->getId());
+        $development = false;
+        if ($attributes->has('development') && $attributes->get("development")) {
+            $development = $this->em->getRepository("PagesBundle:Development")->findOneBy(
+                array("title" => $this->getRequest()->attributes->get('development'))
+            );
+            if ($development) {
+                $criteria += array(
+                    'development' => $development->getId()
+                );
+            }
+        } else {
+            $criteria += array(
+                'site' => $this->container->getParameter("site_id")
+            );
+        }
+
+        return array(
+            "galleries" => $this->em->getRepository("PagesBundle:Gallery")->getConstructionGalleries($criteria),
+            "development"    => $development
+        );
     }
 
     protected function checkEntity($entity, $name)
@@ -61,20 +94,26 @@ class BaseController extends Controller
     {
         $text = preg_replace('/\W+/', $substitute, $text);
         $text = strtolower(trim($text, $substitute));
+
         return $text;
     }
 
-    protected function getForwardSlug($current, $url, $include_current = true){
-        if($current->getForwardToChild() === NULL){
+    protected function getForwardSlug($current, $url, $include_current = true)
+    {
+        if ($current->getForwardToChild() === null) {
             return false;
         }
         $slug = '';
         $temp = $current->getForwardToChild();
-        while($temp != $current){
+        while ($temp != $current) {
             $slug = '/' . $temp->getSlug() . $slug;
             $temp = $temp->getParent();
         }
-        return $url == '' ? $current->getSlug() . $slug : ($include_current ? "$url/{$current->getSlug()}$slug" : $url.$slug);
+
+        return $url == ''
+            ? $current->getSlug() . $slug
+            : ($include_current
+                ? "$url/{$current->getSlug()}$slug" : $url . $slug);
     }
 
 }
