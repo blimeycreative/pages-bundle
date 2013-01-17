@@ -232,7 +232,7 @@ class Page
     /**
      * Set layout
      *
-     * @param Savvy\PagesBundle\Entity\Layout $layout
+     * @param \Savvy\PagesBundle\Entity\Layout $layout
      */
     public function setLayout(\Savvy\PagesBundle\Entity\Layout $layout)
     {
@@ -242,7 +242,7 @@ class Page
     /**
      * Get layout
      *
-     * @return Savvy\PagesBundle\Entity\Layout 
+     * @return \Savvy\PagesBundle\Entity\Layout
      */
     public function getLayout()
     {
@@ -252,7 +252,7 @@ class Page
     /**
      * Add contents
      *
-     * @param Savvy\PagesBundle\Entity\Content $contents
+     * @param \Savvy\PagesBundle\Entity\Content $contents
      */
     public function addContent(\Savvy\PagesBundle\Entity\Content $contents)
     {
@@ -262,7 +262,7 @@ class Page
     /**
      * Get contents
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getContents()
     {
@@ -272,7 +272,7 @@ class Page
     /**
      * Add galleries
      *
-     * @param Savvy\PagesBundle\Entity\Gallery $galleries
+     * @param \Savvy\PagesBundle\Entity\Gallery $galleries
      */
     public function addGallery(\Savvy\PagesBundle\Entity\Gallery $galleries)
     {
@@ -282,7 +282,7 @@ class Page
     /**
      * Get galleries
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGalleries()
     {
@@ -300,7 +300,7 @@ class Page
     /**
      * Add children
      *
-     * @param Savvy\PagesBundle\Entity\Page $children
+     * @param \Savvy\PagesBundle\Entity\Page $children
      */
     public function addPage(\Savvy\PagesBundle\Entity\Page $children)
     {
@@ -310,7 +310,7 @@ class Page
     /**
      * Get children
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getChildren()
     {
@@ -320,7 +320,7 @@ class Page
     /**
      * Set parent
      *
-     * @param Savvy\PagesBundle\Entity\Page $parent
+     * @param \Savvy\PagesBundle\Entity\Page $parent
      */
     public function setParent(\Savvy\PagesBundle\Entity\Page $parent)
     {
@@ -330,7 +330,7 @@ class Page
     /**
      * Get parent
      *
-     * @return Savvy\PagesBundle\Entity\Page 
+     * @return \Savvy\PagesBundle\Entity\Page
      */
     public function getParent()
     {
@@ -340,7 +340,7 @@ class Page
     /**
      * Set site
      *
-     * @param Savvy\PagesBundle\Entity\Site $site
+     * @param \Savvy\PagesBundle\Entity\Site $site
      */
     public function setSite(\Savvy\PagesBundle\Entity\Site $site)
     {
@@ -350,7 +350,7 @@ class Page
     /**
      * Get site
      *
-     * @return Savvy\PagesBundle\Entity\Site 
+     * @return \Savvy\PagesBundle\Entity\Site
      */
     public function getSite()
     {
@@ -370,7 +370,7 @@ class Page
     /**
      * Set forward_to_child
      *
-     * @param Oxygen\CmsBundle\Entity\Page $forwardToChild
+     * @param \Savvy\PagesBundle\Entity\Page $forwardToChild
      */
     public function setForwardToChild($forwardToChild)
     {
@@ -380,7 +380,7 @@ class Page
     /**
      * Get forward_to_child
      *
-     * @return Oxygen\CmsBundle\Entity\Page 
+     * @return \Savvy\PagesBundle\Entity\Page
      */
     public function getForwardToChild()
     {
