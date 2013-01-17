@@ -29,6 +29,7 @@ class GalleryRepository extends EntityRepository
             $q->andWhere('s.id = :site')
                 ->setParameter('site', $criteria['site']);
         }
+
         return $q->getQuery()->getResult();
     }
 }

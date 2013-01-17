@@ -4,6 +4,7 @@ namespace Savvy\PagesBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Validator\Constraints\Null;
 
 /**
  * @Route("/")
@@ -152,6 +153,13 @@ class PageController extends BaseController
                 return $this->redirect(
                     $this->generateUrl('page_index', array('slug' => $this->getForwardSlug($page, $slug, false)))
                 );
+            }
+            /* Page title and meta tag if not set */
+            if($page->getTitle() == null){
+                $page->setTitle($page->getHeading());
+            }
+            if($page->getMetaTag() == null){
+                $page->setMetaTag(substr(strip_tags($page->getDescription()), 0, 120).'...');
             }
             $return = array("page" => $page);
             $contents = $this->em->getRepository('PagesBundle:Content')->getPageContents($page->getId());

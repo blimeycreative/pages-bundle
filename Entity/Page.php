@@ -52,6 +52,20 @@ class Page
     protected $title;
 
     /**
+     * @var sting $heading
+     *
+     * @ORM\ Column (name="heading", type="string")
+     */
+    protected $heading;
+
+    /**
+     * @var sting $meta_tag
+     *
+     * @ORM\ Column (name="meta_tag", type="text", nullable=true)
+     */
+    protected $meta_tag;
+
+    /**
      * @var sting $slug
      *
      * @ORM\ Column (name="slug", type="string")
@@ -371,6 +385,38 @@ class Page
     public function getForwardToChild()
     {
         return $this->forward_to_child;
+    }
+
+    /**
+     * @param \Savvy\PagesBundle\Entity\sting $heading
+     */
+    public function setHeading($heading)
+    {
+        $this->heading = $heading;
+    }
+
+    /**
+     * @return \Savvy\PagesBundle\Entity\sting
+     */
+    public function getHeading()
+    {
+        return $this->heading;
+    }
+
+    /**
+     * @param \Savvy\PagesBundle\Entity\sting $meta_tag
+     */
+    public function setMetaTag($meta_tag)
+    {
+        $this->meta_tag = $meta_tag;
+    }
+
+    /**
+     * @return \Savvy\PagesBundle\Entity\sting
+     */
+    public function getMetaTag()
+    {
+        return $this->meta_tag;
     }
 
 }
