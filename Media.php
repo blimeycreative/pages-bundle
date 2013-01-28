@@ -25,7 +25,7 @@ class Media
 
     public function showFile($id, $class, $size, $route_only, $absolute)
     {
-        $em = $this->container->get('doctrine')->getEntityManager();
+        $em = $this->container->get('doctrine')->getManager();
         $media = $em->getRepository('PagesBundle:Media')->find($id);
         if (!$media)
             return;
@@ -41,7 +41,7 @@ class Media
     }
 
     public function showTitle($id){
-        $em = $this->container->get('doctrine')->getEntityManager();
+        $em = $this->container->get('doctrine')->getManager();
         $media = $em->getRepository('PagesBundle:Media')->find($id);
         if (!$media)
             return;
