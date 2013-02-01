@@ -1,0 +1,24 @@
+parameters:
+    savvy.media.controller.class:   Savvy\PagesBundle\Controller\MediaController
+    savvy.media.class:              Savvy\PagesBundle\Media
+    savvy.media.factory.class:      Savvy\PagesBundle\MediaFactory
+
+services:
+    savvy.media.factory:
+        class:      "%savvy.media.factory.class%"
+        arguments:  ["%savvy.media.class%", @service_container]
+
+    twig.extension.savvy.pages:
+        class:      Savvy\PagesBundle\Twig\Extension\SavvyPagesExtension
+        arguments:  [@service_container]
+        tags:
+            - { name: twig.extension }
+
+    knp_menu.voter.router:
+        class:      Knp\Menu\Silex\Voter\RouteVoter
+        tags:
+            - { name: knp_menu.voter, request: true }
+
+    savvy.pages:
+        class:      Savvy\PagesBundle\Service\SavvyPages
+        arguments:  [@service_container]

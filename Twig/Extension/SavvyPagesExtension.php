@@ -63,6 +63,7 @@ class SavvyPagesExtension extends \Twig_Extension
             'nice_selling_type' => new \Twig_Function_Method($this, 'getSellingTypeTranslation', array('is_safe' => array('html'))),
             'auto_p' => new \Twig_Function_Method($this, 'automatedParagraphs', array('is_safe' => array('html'))),
             'has_nav_two' => new \Twig_Function_Method($this, 'hasNavTwo'),
+            'agent_detail' => new \Twig_Function_Method($this, 'agentDetail', array('is_safe' => array('html')))
         );
     }
 
@@ -156,6 +157,16 @@ class SavvyPagesExtension extends \Twig_Extension
             $val = str_replace($strip, '', (string) $val);
         }
         return $val === '' ? false : $val;
+    }
+
+    /**
+     *
+     * @param string $detail
+     * @return string $detail
+     */
+    public function agentDetail($detail)
+    {
+        return $this->container->get("savvy.pages")->getAgentDetail($detail);
     }
 
 }
