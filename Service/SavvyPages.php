@@ -3,6 +3,7 @@
 namespace Savvy\PagesBundle\Service;
 
 use Savvy\PagesBundle\Controller\BaseController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SavvyPages extends BaseController {
 
