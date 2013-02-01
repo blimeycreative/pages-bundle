@@ -71,7 +71,7 @@ class SavvyPagesExtension extends \Twig_Extension
     {
         return array(
             'string_to_array' => new \Twig_Filter_Method($this, 'stringToArray'),
-            'address_format' => new \Twig_Filter_Method($this, 'addressFormat'),
+            'address_format' => new \Twig_Filter_Method($this, 'addressFormat', array('is_safe' => array('html'))),
         );
     }
 
