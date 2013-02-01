@@ -6,7 +6,7 @@ parameters:
 services:
     savvy.media.factory:
         class:      "%savvy.media.factory.class%"
-        arguments:  ["%savvy.media.class%", @service_container]
+        arguments:  [@service_container, "%savvy.media.class%"]
 
     twig.extension.savvy.pages:
         class:      Savvy\PagesBundle\Twig\Extension\SavvyPagesExtension
