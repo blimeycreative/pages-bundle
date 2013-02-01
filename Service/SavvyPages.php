@@ -7,20 +7,13 @@ use Savvy\PagesBundle\Controller\BaseController;
 class SavvyPages extends BaseController {
 
     protected $whiteLabel;
-    /**
-     * Container
-     *
-     * @var ContainerInterface
-     */
-    protected $container;
 
     /**
-     *
      * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->container = $container;
+        $this->setContainer($container);
     }
 
     public function getAgentDetail($detail)
