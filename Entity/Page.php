@@ -126,6 +126,13 @@ class Page
      */
     protected $forward_to_child;
 
+    /**
+     * @var datetime $updated_at
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    protected $updated_at;
+
     public function __construct()
     {
         $this->contents = new ArrayCollection();
@@ -417,6 +424,22 @@ class Page
     public function getMetaTag()
     {
         return $this->meta_tag;
+    }
+
+    /**
+     * @param \Savvy\PagesBundle\Entity\datetime $updated_at
+     */
+    public function setUpdatedAt($updated_at)
+    {
+        $this->updated_at = $updated_at;
+    }
+
+    /**
+     * @return \Savvy\PagesBundle\Entity\datetime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
     }
 
 }
