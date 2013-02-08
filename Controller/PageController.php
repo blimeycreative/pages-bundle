@@ -22,7 +22,8 @@ class PageController extends BaseController
         $media = $this->getDoctrine()->getRepository('PagesBundle:Media')->find($id);
         error_log("MediaCacheFile: Attempt file read for media id: '$id'");
         if ($media) {
-            header("Cache-Control: max-age=360000, public, must-revalidate");
+
+            header("Cache-Control: max-age=604800, public, must-revalidate");
             if (!in_array($media->getMediaType()->getExtension(), array('png', 'gif', 'jpg'))) {
                 error_log("MediaCacheFile: render file as its not an image");
                 header("Content-Description: File Transfer");
@@ -120,8 +121,14 @@ class PageController extends BaseController
                 }
                 error_log("MediaCacheFile: Rendering cache file");
                 header('content-type: ' . $content_type);
+                $file = "{$this->media_cache_route}$id-$width-$height.$extension";
+                $last_modified_time = filemtime($file);
+                $etag = md5_file($file);
 
-                readfile("{$this->media_cache_route}$id-$width-$height.$extension");
+                header("Last-Modified: ".gmdate("D, d M Y H:i:s", $last_modified_time)." GMT");
+                header("Etag: $etag");
+
+                readfile($file);
             }
         }
         exit;
