@@ -22,9 +22,9 @@ class PageController extends BaseController
         $media = $this->getDoctrine()->getRepository('PagesBundle:Media')->find($id);
         error_log("MediaCacheFile: Attempt file read for media id: '$id'");
         if ($media) {
+            header("Cache-Control: max-age=360000, public, must-revalidate");
             if (!in_array($media->getMediaType()->getExtension(), array('png', 'gif', 'jpg'))) {
                 error_log("MediaCacheFile: render file as its not an image");
-                header("Cache-Control: public");
                 header("Content-Description: File Transfer");
                 header(
                     "Content-Disposition: attachment; filename={$media->getFileName()}.{$media->getMediaType()
@@ -120,6 +120,7 @@ class PageController extends BaseController
                 }
                 error_log("MediaCacheFile: Rendering cache file");
                 header('content-type: ' . $content_type);
+
                 readfile("{$this->media_cache_route}$id-$width-$height.$extension");
             }
         }
