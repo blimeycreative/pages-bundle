@@ -4,6 +4,7 @@ namespace Savvy\PagesBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\Null;
 
 /**
@@ -153,6 +154,15 @@ class PageController extends BaseController
                 return $this->redirect(
                     $this->generateUrl('page_index', array('slug' => $this->getForwardSlug($page, $slug, false)))
                 );
+            }
+            $date = new \DateTime($page->getUpdatedAt());
+            $response = new Response();
+            $response->setLastModified($date);
+            // Set response as public. Otherwise it will be private by default.
+            $response->setPublic();
+
+            if ($response->isNotModified($this->getRequest())) {
+                return $response;
             }
             /* Page title if not set */
             if($page->getTitle() == null){
