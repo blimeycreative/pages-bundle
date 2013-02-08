@@ -155,9 +155,8 @@ class PageController extends BaseController
                     $this->generateUrl('page_index', array('slug' => $this->getForwardSlug($page, $slug, false)))
                 );
             }
-            $date = new \DateTime($page->getUpdatedAt());
             $response = new Response();
-            $response->setLastModified($date);
+            $response->setLastModified($page->getUpdatedAt());
             // Set response as public. Otherwise it will be private by default.
             $response->setPublic();
 
