@@ -173,7 +173,7 @@ class PageController extends BaseController
                 $return[self::slugify($content->getType()->getName(), "_")] = $content->getValue();
             }
 
-            return $return;
+            return $this->render('PagesBundle:Page:index.html.twig', $return, $response);
         }
 
         return array();
