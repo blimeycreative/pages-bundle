@@ -136,7 +136,7 @@ class Page
     /**
      * @var integer $construction_gallery_development
      *
-     * @ORM\Column(name="construction_gallery_development", type="integer", nullable=true)
+     * @ORM\Column(name="construction_gallery_development_id", type="integer", nullable=true)
      */
     protected $construction_gallery_development;
 
