@@ -133,6 +133,13 @@ class Page
      */
     protected $updated_at;
 
+    /**
+     * @var integer $construction_gallery_development
+     *
+     * @ORM\Column(name="construction_gallery_development", type="integer", nullable=true)
+     */
+    protected $construction_gallery_development;
+
     public function __construct()
     {
         $this->contents = new ArrayCollection();
@@ -440,6 +447,22 @@ class Page
     public function getUpdatedAt()
     {
         return $this->updated_at;
+    }
+
+    /**
+     * @param int $construction_gallery_development
+     */
+    public function setConstructionGalleryDevelopment($construction_gallery_development)
+    {
+        $this->construction_gallery_development = $construction_gallery_development;
+    }
+
+    /**
+     * @return int
+     */
+    public function getConstructionGalleryDevelopment()
+    {
+        return $this->construction_gallery_development;
     }
 
 }
