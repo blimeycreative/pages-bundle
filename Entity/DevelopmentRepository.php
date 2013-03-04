@@ -16,8 +16,8 @@ class DevelopmentRepository extends EntityRepository
     public function getConstructionGalleries($development_id, $offset)
     {
         return $this->createQueryBuilder('d')
-            ->leftJoin("d.cms_galleries", "g")
-            ->leftJoin("g.gallery_type", "gt")
+            ->innerJoin("d.cms_galleries", "g")
+            ->innerJoin("g.gallery_type", "gt")
             ->where("d.id = :development AND gt.name = :construction")
             ->setParameter("development", $development_id)
             ->setParameter("construction", "construction")
