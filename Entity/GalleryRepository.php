@@ -32,4 +32,21 @@ class GalleryRepository extends EntityRepository
 
         return $q->getQuery()->getResult();
     }
+
+    public function getConstructionGalleriesAndFiles($development_id, $offset)
+    {
+        return $this->createQueryBuilder('g')
+            ->select("g, gm, md")
+            ->innerJoin("g.files", "f")
+            ->innerJoin("g.development", "d")
+            ->innerJoin("f.media_data", "md")
+            ->innerJoin("g.gallery_type", "gt")
+            ->where("d.id = :development AND gt.name = :construction")
+            ->setParameter("development", $development_id)
+            ->setParameter("construction", "construction")
+            ->setMaxResults(5)
+            ->setFirstResult($offset)
+            ->getQuery()
+            ->getResult();
+    }
 }
