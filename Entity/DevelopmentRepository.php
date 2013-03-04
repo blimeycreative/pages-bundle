@@ -17,7 +17,10 @@ class DevelopmentRepository extends EntityRepository
     public function getConstructionGalleries($development_id, $offset)
     {
         return $this->createQueryBuilder('d')
+            ->select("d.*, md.*")
             ->innerJoin("d.cms_galleries", "g")
+            ->innerJoin("g.gallery_media", "gm")
+            ->innerJoin("gm.media_data", "md")
             ->innerJoin("g.gallery_type", "gt")
             ->where("d.id = :development AND gt.name = :construction")
             ->setParameter("development", $development_id)
@@ -25,7 +28,7 @@ class DevelopmentRepository extends EntityRepository
             ->setMaxResults(5)
             ->setFirstResult($offset)
             ->getQuery()
-            ->getOneOrNullResult(Query::HYDRATE_ARRAY);
+            ->getOneOrNullResult();
     }
 
 }
