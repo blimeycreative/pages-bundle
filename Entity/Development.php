@@ -229,4 +229,14 @@ class Development
         return $this->description;
     }
 
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getCmsGalleries()
+    {
+        return $this->cms_galleries;
+    }
+
+
+
 }
