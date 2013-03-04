@@ -36,10 +36,7 @@ class GalleryRepository extends EntityRepository
     public function getConstructionGalleriesAndFiles($development_id, $offset)
     {
         return $this->createQueryBuilder('g')
-            ->select("g, f, md")
-            ->innerJoin("g.files", "f")
             ->innerJoin("g.development", "d")
-            ->innerJoin("f.media_data", "md")
             ->innerJoin("g.gallery_type", "gt")
             ->where("d.id = :development AND gt.name = :construction")
             ->setParameter("development", $development_id)
