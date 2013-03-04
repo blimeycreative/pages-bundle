@@ -17,7 +17,7 @@ class DevelopmentRepository extends EntityRepository
     public function getConstructionGalleries($development_id, $offset)
     {
         return $this->createQueryBuilder('d')
-            ->select("d, md")
+            ->select("d, g, f, md")
             ->innerJoin("d.cms_galleries", "g")
             ->innerJoin("g.files", "f")
             ->innerJoin("f.media_data", "md")
