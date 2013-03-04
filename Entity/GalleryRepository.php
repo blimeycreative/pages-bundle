@@ -43,6 +43,7 @@ class GalleryRepository extends EntityRepository
             ->setParameter("construction", "construction")
             ->setMaxResults(5)
             ->setFirstResult($offset)
+            ->orderBy("g.created_date", "DESC")
             ->getQuery()
             ->getResult();
     }
