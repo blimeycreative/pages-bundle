@@ -24,7 +24,7 @@ class DevelopmentRepository extends EntityRepository
             ->setMaxResults(5)
             ->setFirstResult($offset)
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
 
 }
