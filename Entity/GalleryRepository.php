@@ -33,7 +33,7 @@ class GalleryRepository extends EntityRepository
         return $q->getQuery()->getResult();
     }
 
-    public function getConstructionGalleriesAndFiles($development_id, $offset)
+    public function getConstructionGalleriesAndFiles($development_id, $offset, $limit = 1)
     {
         return $this->createQueryBuilder('g')
             ->innerJoin("g.development", "d")
@@ -41,7 +41,7 @@ class GalleryRepository extends EntityRepository
             ->where("d.id = :development AND gt.name = :construction")
             ->setParameter("development", $development_id)
             ->setParameter("construction", "construction")
-            ->setMaxResults(5)
+            ->setMaxResults($limit)
             ->setFirstResult($offset)
             ->orderBy("g.created_date", "DESC")
             ->getQuery()
