@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Oxygen\PropertyBundle\Entity\PropertyTypeFeature
  *
  * @ORM\Table(name="gallery_media")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Savvy\PagesBundle\Entity\GalleryRepository")
  */
 class GalleryMedia
 {

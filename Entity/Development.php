@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Savvy\PagesBundle\Entity\Development
  *
  * @ORM\Table(name="development")
- * @ORM\Entity(repositoryClass="Savvy\PagesBundle\Entity\DevelopmentRepository")
+ * @ORM\Entity
  */
 class Development
 {
