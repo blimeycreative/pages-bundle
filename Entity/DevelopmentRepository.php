@@ -3,6 +3,7 @@
 namespace Savvy\PagesBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 /**
  * ContentRepository
@@ -24,7 +25,7 @@ class DevelopmentRepository extends EntityRepository
             ->setMaxResults(5)
             ->setFirstResult($offset)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult(Query::HYDRATE_ARRAY);
     }
 
 }
