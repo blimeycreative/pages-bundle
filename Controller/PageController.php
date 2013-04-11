@@ -33,7 +33,8 @@ class PageController extends BaseController
                 );
                 header("Content-Transfer-Encoding: binary");
 
-                $file = "{$this->media_route}.{$media->getMediaType()->getExtension()}";
+                $file = "{$this->media_route}$id.{$media->getMediaType()->getExtension()}";
+                error_log($file);
                 $last_modified_time = filemtime($file);
                 $etag = md5_file($file);
                 header("Last-Modified: ".gmdate("D, d M Y H:i:s", $last_modified_time)." GMT");
