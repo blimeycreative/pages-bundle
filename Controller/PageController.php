@@ -32,6 +32,15 @@ class PageController extends BaseController
                         ->getExtension()}"
                 );
                 header("Content-Transfer-Encoding: binary");
+
+                $file = "{$this->media_route}.{$media->getMediaType()->getExtension()}";
+                $last_modified_time = filemtime($file);
+                $etag = md5_file($file);
+                header("Last-Modified: ".gmdate("D, d M Y H:i:s", $last_modified_time)." GMT");
+                header("Etag: $etag");
+
+                readfile($file);
+                exit;
             }
             if (!$width && !$height) {
                 error_log("MediaCacheFile: no width or height set so no need to create cache file");
