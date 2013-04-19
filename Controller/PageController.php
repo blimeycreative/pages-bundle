@@ -27,7 +27,7 @@ class PageController extends BaseController
             if (!in_array($media->getMediaType()->getExtension(), array('png', 'gif', 'jpg'))) {
                 error_log("MediaCacheFile: render file as its not an image");
                 $file = "{$this->media_route}$id.{$media->getMediaType()->getExtension()}";
-                $fileInfo = new finfo(FILEINFO_MIME);
+                $fileInfo = new \finfo(FILEINFO_MIME);
                 $content_type = $fileInfo->file($file);
                 header('Content-Description: File Transfer');
                 header('Content-Type: ' . $content_type);
