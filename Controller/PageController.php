@@ -26,19 +26,18 @@ class PageController extends BaseController
             header("Cache-Control: max-age=604800, public, must-revalidate");
             if (!in_array($media->getMediaType()->getExtension(), array('png', 'gif', 'jpg'))) {
                 error_log("MediaCacheFile: render file as its not an image");
-                header("Content-Description: File Transfer");
-                header(
-                    "Content-Disposition: attachment; filename={$media->getFileName()}.{$media->getMediaType()
-                        ->getExtension()}"
-                );
-                header("Content-Transfer-Encoding: binary");
-
                 $file = "{$this->media_route}$id.{$media->getMediaType()->getExtension()}";
+                header('Content-Description: File Transfer');
+                header('Content-Type: application/pdf');
+                header("Content-Disposition: attachment; filename={$media->getFileName()}.{$media->getMediaType()->getExtension()}");
+                header('Content-Transfer-Encoding: binary');
+                header('Connection: Keep-Alive');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($file));
+
                 error_log($file);
-                $last_modified_time = filemtime($file);
-                $etag = md5_file($file);
-                header("Last-Modified: ".gmdate("D, d M Y H:i:s", $last_modified_time)." GMT");
-                header("Etag: $etag");
 
                 readfile($file);
                 exit;
