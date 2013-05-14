@@ -122,6 +122,19 @@ class PageController extends BaseController
                                 "MediaCacheFile: jpg file written: " . $this->media_cache_route . "$id-$width-$height.jpg"
                             );
                         }
+                    } elseif($width > 0 && $height == false) {
+                        $im->thumbnailImage($width, 0, false);
+                        $extension = 'jpg';
+                        $content_type = 'image/jpeg';
+                        error_log("MediaCacheFile: jpg type chosen");
+                        $im->setImageFormat('jpeg');
+                        error_log("MediaCacheFile: jpg format set");
+                        $im->setImageCompressionQuality(80);
+                        error_log("MediaCacheFile: compression quality set to 80");
+                        $im->writeImage($this->media_cache_route . "$id-$width-$height.jpg");
+                        error_log(
+                            "MediaCacheFile: jpg file written: " . $this->media_cache_route . "$id-$width-$height.jpg"
+                        );
                     } else {
                         $extension = $media->getMediaType()->getExtension();
                         $content_type = $media->getMediaType()->getName();
